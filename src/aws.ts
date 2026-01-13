@@ -17,13 +17,19 @@ export const isPubECR = (registry: string): boolean => {
 };
 
 export const getRegion = (registry: string): string => {
+  core.info(`Extracting region from registry: ${registry}`);
   if (isPubECR(registry)) {
-    return process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1';
+    const region = process.env.AWS_REGION || process.env.AWS_DEFAULT_REGION || 'us-east-1';
+    core.info(`Public ECR detected, using region: ${region}`);
+    return region;
   }
   const matches = registry.match(ecrRegistryRegex);
+  core.info(`Regex matches: ${JSON.stringify(matches)}`);
   if (!matches) {
+    core.info(`Registry does not match ECR pattern, returning empty region`);
     return '';
   }
+  core.info(`Extracted region: ${matches[4]}`);
   return matches[4];
 };
 
