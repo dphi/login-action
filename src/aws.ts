@@ -113,7 +113,7 @@ export const getRegistriesData = async (registry: string, username?: string, pas
       }
     ];
   } else {
-    core.info(`AWS ECR detected with ${region} region`);
+    core.info(`DEBUG!!!: AWS ECR detected with ${region} region`);
     const ecr = new ECR({
       customUserAgent: 'docker-login-action',
       credentials,
